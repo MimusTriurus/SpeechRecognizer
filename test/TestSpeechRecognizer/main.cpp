@@ -1,6 +1,8 @@
 #include <QCoreApplication>
 
 #include "speechrecognizer.h"
+#include "speechrecognizerwrapper.h"
+
 #include "iostream"
 #include <Windows.h>
 #include <QIODevice>

@@ -31,8 +31,9 @@ class SpeechRecognizerWrapper
         double _threshold = 1e+10f;
 
         QString _baseGrammarName = "";
-        QString _grammarPath = "";
         QString _inputDeviceName = "";
+
+        const QString ASSEST_FILE_NAME = "assets.lst";
 
         void eventRecognitionResult( const char* value );
 
@@ -41,6 +42,8 @@ class SpeechRecognizerWrapper
         void eventLogMessage( const char* value );
 
         void recognizeFromMicrophone( );
+
+        bool checkAcousticModelFiles( const char* assetsFilePath );
     public:
         /**
          * @brief конструктор

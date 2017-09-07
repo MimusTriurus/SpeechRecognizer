@@ -4,7 +4,7 @@
 
 namespace SpeechRecognizer
 {
-    SpeechRecognizerWrapper speechRecognizer;
+    static SpeechRecognizerWrapper speechRecognizer;
 
     void SpeechRecognizer::setBaseGrammar( const char *grammarName )
     {

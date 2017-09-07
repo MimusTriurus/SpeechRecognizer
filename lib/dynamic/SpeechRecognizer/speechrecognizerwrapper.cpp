@@ -73,6 +73,36 @@ namespace SpeechRecognizer {
         eventLogMessage( "Ready..." );
     }
 
+    bool SpeechRecognizerWrapper::checkAcousticModelFiles( const char *assetsFilePath )
+    {
+        QFile file( assetsFilePath + ASSEST_FILE_NAME );
+        // если файла со списком файлов акустической модели не существует,
+        // то предоставяем библиотеке возможность самой проверять наличие соответствующих файлов
+        if ( !file.exists( ) ) {
+            eventLogMessage( "File 'assets.lst' not found. Don't worry." );
+            return true;
+        }
+        if ( !file.open( QFile::ReadOnly ) ) {
+            eventCrashMessage( "Can't open assets.lst file" );
+            return false;
+        }
+        eventLogMessage( "Start read file." );
+
+        while ( !file.atEnd( ) ) {
+            QString path( file.readLine( ) );
+            path.prepend( assetsFilePath );
+            path = QDir::toNativeSeparators( path );
+            // зменить следующие две строки на регулярное выражение
+            path = path.remove('\r');
+            path = path.remove('\n');
+            if ( !QFile( path ).exists( ) ) {
+                eventCrashMessage( "Acoustic model. File " + path.toUtf8( ) + " not found!");
+                return false;
+            }
+        }
+        return true;
+    }
+
     SpeechRecognizerWrapper::SpeechRecognizerWrapper( )
     {
 
@@ -88,9 +118,9 @@ namespace SpeechRecognizer {
         dictDest.append( "dictionaries/actualDictionary.dict" );
         dictDest = QDir::toNativeSeparators( dictDest );
 
-        _grammarPath = destination;
-        _grammarPath.append( "grammarFiles/" );
-        _grammarPath = QDir::toNativeSeparators( _grammarPath );
+        if ( checkAcousticModelFiles( destination ) )
+            return false;
+
         _config = cmd_ln_init( nullptr, cont_args_def, TRUE,
                 "-hmm", hmmDest.toUtf8( ).data( ),
                 "-remove_noise", "yes",

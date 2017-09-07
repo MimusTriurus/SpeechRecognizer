@@ -8,12 +8,9 @@
 #else
 #define FUNCTION_EXPORT
 #endif
-
-#define _CRT_SECURE_NO_WARNINGS
 /**
  * @brief обертка - набор методов для работы с классом SpeechRecognizerWrapper
  * реализовано в виде набора методов для упрощения работы с библиотекой из под Unity 5 при помощи InteropServices
- * в приложениях Qt ничто не мешает использовать SpeechRecognizerWrapper напрямую
  */
 namespace SpeechRecognizer {
 
