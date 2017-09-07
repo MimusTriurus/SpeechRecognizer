@@ -4,9 +4,10 @@
 #include "iostream"
 #include <Windows.h>
 #include <QIODevice>
+#include <QDebug>
 #include <QAudioDeviceInfo>
 
-void onRecieveResult(const char hypothesis[])
+void onRecieveResult( const char *hypothesis )
 {
     qDebug() << "result:" << hypothesis;
     QString hyp(hypothesis);
@@ -16,62 +17,38 @@ void onRecieveResult(const char hypothesis[])
         SpeechRecognizer::setSearchKeyword();
 }
 
-void onRecievePartialResult(const char hypothesis[])
+void onRecieveLogMessage( const char *logMess )
 {
-    qDebug() << "partial result:" << hypothesis;
+    qDebug() << "log:" << logMess;
 }
 
-void onInitResult(const char hypothesis[])
-{
-    qDebug() << "init:" << hypothesis;
+void onCrashMessRecieve( const char *crashMess ) {
+    qDebug( ) << "crash:"   << crashMess;
 }
 
-void onRecieveLogMessage(const char hypothesis[])
+void addResultRecieverMethod( )
 {
-    QString mess(hypothesis);
-    qDebug() << "log:" << mess;
+    SpeechRecognizer::setResultReciever( onRecieveResult );
 }
 
-void addResultRecieverMethod(void)
+void addLogRecieverMethod( )
 {
-    typedef void (*function_address)(const char[]);
-    function_address var_function;
-    var_function = onRecieveResult;
-    SpeechRecognizer::setResultRecieverMethod(var_function);
+    SpeechRecognizer::setLogMessReciever( onRecieveLogMessage );
 }
 
-void addPartialResultRecieverMethod(void)
-{
-    typedef void (*function_address)(const char[]);
-    function_address var_function;
-    var_function = onRecievePartialResult;
-    SpeechRecognizer::setPartialResultRecieverMethod(var_function);
-}
-
-void addInitResultRecieverMethod(void)
-{
-    typedef void (*function_address)(const char[]);
-    function_address var_function;
-    var_function = onInitResult;
-    SpeechRecognizer::setInitResultMethod(var_function);
-}
-
-void addLogRecieverMethod(void)
-{
-    typedef void (*function_address)(const char[]);
-    function_address var_function;
-    var_function = onRecieveLogMessage;
-    SpeechRecognizer::setMessagesFromLogRecieverMethod(var_function);
+void addCrashMessRecieverMethod( ) {
+    SpeechRecognizer::setCrashReciever( onCrashMessRecieve );
 }
 
 int main(int argc, char *argv[])
 {
     QCoreApplication a(argc, argv);
 
-    addLogRecieverMethod();
-    addResultRecieverMethod();
-    addPartialResultRecieverMethod();
-    addInitResultRecieverMethod();
+    setlocale(LC_ALL, "Russian");
+
+    addLogRecieverMethod( );
+    addResultRecieverMethod( );
+    addCrashMessRecieverMethod( );
 
     QString appDestination(QCoreApplication::applicationDirPath());
     appDestination.append("/");
@@ -93,8 +70,10 @@ int main(int argc, char *argv[])
     SpeechRecognizer::setInputDeviceName( name.toUtf8() );
     //SpeechRecognizer::setThreshold(1e-7f);
     bool result = SpeechRecognizer::runRecognizerSetup( appDestination.toUtf8( ).data( ) );
-    if (!result)
+    if (!result) {
         qDebug() << "error on init";
+        return -1;
+    }
 
     result = SpeechRecognizer::addWordIntoDictionary("два", "d v a1");
     result = SpeechRecognizer::addWordIntoDictionary("три", "t rj i1");

@@ -5,14 +5,19 @@ CONFIG += c++11
 
 TARGET = TestSpeechRecognizer
 CONFIG += console
+CONFIG += c++11
 CONFIG -= app_bundle
 
 TEMPLATE = app
 
-SOURCES += main.cpp
+SOURCES += main.cpp \
+    speakrecognition.cpp
 
-win32:CONFIG(release, debug|release): LIBS += -L$$OUT_PWD/../../lib/dynamic/SpeechRecognizerWrapper/release/ -lSpeechRecognizerWrapper
-else:win32:CONFIG(debug, debug|release): LIBS += -L$$OUT_PWD/../../lib/dynamic/SpeechRecognizerWrapper/debug/ -lSpeechRecognizerWrapper
+HEADERS += \
+    speakrecognition.h
 
-INCLUDEPATH += $$PWD/../../lib/dynamic/SpeechRecognizerWrapper
-DEPENDPATH += $$PWD/../../lib/dynamic/SpeechRecognizerWrapper
+win32:CONFIG(release, debug|release): LIBS += -L$$OUT_PWD/../../lib/dynamic/SpeechRecognizer/release/ -lSpeechRecognizer
+else:win32:CONFIG(debug, debug|release): LIBS += -L$$OUT_PWD/../../lib/dynamic/SpeechRecognizer/debug/ -lSpeechRecognizer
+
+INCLUDEPATH += $$PWD/../../lib/dynamic/SpeechRecognizer
+DEPENDPATH += $$PWD/../../lib/dynamic/SpeechRecognizer

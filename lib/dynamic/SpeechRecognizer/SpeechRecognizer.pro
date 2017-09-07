@@ -6,8 +6,10 @@
 
 QT       -= gui
 
-TARGET = SpeechRecognizerWrapper
+TARGET = SpeechRecognizer
 TEMPLATE = lib
+
+CONFIG += c++11
 
 DEFINES += SPEECHRECOGNIZER_LIBRARY
 
