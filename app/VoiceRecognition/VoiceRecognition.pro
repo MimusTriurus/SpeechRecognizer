@@ -23,9 +23,31 @@ DEFINES += QT_DEPRECATED_WARNINGS
 #DEFINES += QT_DISABLE_DEPRECATED_BEFORE=0x060000    # disables all the APIs deprecated before Qt 6.0.0
 
 
-SOURCES += main.cpp\
-        mainwindow.cpp
+SOURCES += main.cpp \
+        mainwindow.cpp \
+        speakrecognition.cpp
 
-HEADERS  += mainwindow.h
+HEADERS  += mainwindow.h \
+        speakrecognition.h
 
 FORMS    += mainwindow.ui
+
+win32:CONFIG(release, debug|release): LIBS += -L$$OUT_PWD/../../lib/dynamic/SpeechRecognizer/release/ -lSpeechRecognizer
+else:win32:CONFIG(debug, debug|release): LIBS += -L$$OUT_PWD/../../lib/dynamic/SpeechRecognizer/debug/ -lSpeechRecognizer
+else:unix:!macx: LIBS += -L$$OUT_PWD/../../lib/dynamic/SpeechRecognizer/ -lSpeechRecognizer
+
+INCLUDEPATH += $$PWD/../../lib/dynamic/SpeechRecognizer
+DEPENDPATH += $$PWD/../../lib/dynamic/SpeechRecognizer
+
+win32:CONFIG(release, debug|release): LIBS += -L$$OUT_PWD/../../lib/static/Dictionary/release/ -lDictionary
+else:win32:CONFIG(debug, debug|release): LIBS += -L$$OUT_PWD/../../lib/static/Dictionary/debug/ -lDictionary
+else:unix:!macx: LIBS += -L$$OUT_PWD/../../lib/static/Dictionary/ -lDictionary
+
+INCLUDEPATH += $$PWD/../../lib/static/Dictionary
+DEPENDPATH += $$PWD/../../lib/static/Dictionary
+
+win32-g++:CONFIG(release, debug|release): PRE_TARGETDEPS += $$OUT_PWD/../../lib/static/Dictionary/release/libDictionary.a
+else:win32-g++:CONFIG(debug, debug|release): PRE_TARGETDEPS += $$OUT_PWD/../../lib/static/Dictionary/debug/libDictionary.a
+else:win32:!win32-g++:CONFIG(release, debug|release): PRE_TARGETDEPS += $$OUT_PWD/../../lib/static/Dictionary/release/Dictionary.lib
+else:win32:!win32-g++:CONFIG(debug, debug|release): PRE_TARGETDEPS += $$OUT_PWD/../../lib/static/Dictionary/debug/Dictionary.lib
+else:unix:!macx: PRE_TARGETDEPS += $$OUT_PWD/../../lib/static/Dictionary/libDictionary.a

@@ -34,28 +34,23 @@ namespace SpeechRecognizer {
     static const char* ADD_DICT_FILE = "-dict";
     static const char* KEYPHRASE_SEARCH = "keyphrase_search";
 
-    void SpeechRecognizerWrapper::eventRecognitionResult( const char *value )
-    {
+    void SpeechRecognizerWrapper::eventRecognitionResult( const char *value ) {
         if ( recognitionResult != nullptr )
             ( *recognitionResult )( value );
     }
 
-    void SpeechRecognizerWrapper::eventCrashMessage( const char *value )
-    {
+    void SpeechRecognizerWrapper::eventCrashMessage( const char *value ) {
         if ( crashMessage != nullptr )
             ( *crashMessage )( value );
     }
 
-    void SpeechRecognizerWrapper::eventLogMessage( const char *value )
-    {
+    void SpeechRecognizerWrapper::eventLogMessage( const char *value ) {
         if ( logMessage != nullptr )
             ( *logMessage )( value );
     }
 
-    void SpeechRecognizerWrapper::recognizeFromMicrophone()
-    {
+    void SpeechRecognizerWrapper::recognizeFromMicrophone( ) {
         if ( ( _ad = ad_open_dev( cmd_ln_str_r( _config, "-adcdev" ), ( int ) cmd_ln_float32_r( _config, "-samprate" ) ) ) == nullptr ) {
-
             eventCrashMessage( "Audio device:  " + QString( cmd_ln_str_r( _config, "-adcdev" ) ).toUtf8( ) + " not found!" );
             return;
         }
@@ -73,8 +68,7 @@ namespace SpeechRecognizer {
         eventLogMessage( "Ready..." );
     }
 
-    bool SpeechRecognizerWrapper::checkAcousticModelFiles( const char *assetsFilePath )
-    {
+    bool SpeechRecognizerWrapper::checkAcousticModelFiles( const char *assetsFilePath ) {
         QFile file( assetsFilePath + ASSEST_FILE_NAME );
         // если файла со списком файлов акустической модели не существует,
         // то предоставяем библиотеке возможность самой проверять наличие соответствующих файлов
@@ -86,8 +80,6 @@ namespace SpeechRecognizer {
             eventCrashMessage( "Can't open assets.lst file" );
             return false;
         }
-        eventLogMessage( "Start read file." );
-
         while ( !file.atEnd( ) ) {
             QString path( file.readLine( ) );
             path.prepend( assetsFilePath );
@@ -103,22 +95,10 @@ namespace SpeechRecognizer {
         return true;
     }
 
-    SpeechRecognizerWrapper::SpeechRecognizerWrapper( )
-    {
+    bool SpeechRecognizerWrapper::runRecognizerSetup( const char *destination ) {
+        QString hmmDest = QDir::toNativeSeparators( destination );
 
-    }
-
-    bool SpeechRecognizerWrapper::runRecognizerSetup( const char *destination )
-    {
-        QString hmmDest = destination;
-        hmmDest.append( "acousticModels/16000" );
-        hmmDest = QDir::toNativeSeparators( hmmDest );
-
-        QString dictDest = destination;
-        dictDest.append( "dictionaries/actualDictionary.dict" );
-        dictDest = QDir::toNativeSeparators( dictDest );
-
-        if ( checkAcousticModelFiles( destination ) )
+        if ( !checkAcousticModelFiles( destination ) )
             return false;
 
         _config = cmd_ln_init( nullptr, cont_args_def, TRUE,
@@ -127,11 +107,7 @@ namespace SpeechRecognizer {
                 "-inmic", "yes",
                 "-adcdev", _inputDeviceName.toUtf8( ).data( ),
                 nullptr );
-        if ( QFile( dictDest ).exists( ) )
-            cmd_ln_set_str_r( _config, ADD_DICT_FILE, dictDest.toUtf8( ).data( ) );
-        else {
-            eventLogMessage( "dict file " + dictDest.toUtf8( ) + " not found. Use method 'addWordIntoDictionary' to add words manualy" );
-        }
+
         cmd_ln_set_float_r( _config, KWS_THRESHOLD, _threshold );
         if ( _logIntoFile ) {
             QString logDest = destination;
@@ -155,24 +131,20 @@ namespace SpeechRecognizer {
         return true;
     }
 
-    void SpeechRecognizerWrapper::setBaseGrammar( const char *grammarName )
-    {
+    void SpeechRecognizerWrapper::setBaseGrammar( const char *grammarName ) {
         _baseGrammarName = grammarName;
     }
 
-    void SpeechRecognizerWrapper::setKeyword(const char *keyword )
-    {
+    void SpeechRecognizerWrapper::setKeyword( const char *keyword ) {
         _useKeyword = true;
         ps_set_keyphrase( _ps, KEYPHRASE_SEARCH, keyword );
     }
 
-    void SpeechRecognizerWrapper::setThreshold(const double threshold )
-    {
+    void SpeechRecognizerWrapper::setThreshold( const double threshold ) {
         _threshold = threshold;
     }
 
-    void SpeechRecognizerWrapper::switchGrammar( const char *grammarName )
-    {
+    void SpeechRecognizerWrapper::switchGrammar( const char *grammarName ) {
         if ( _ps == nullptr ) return;
         int result = ps_set_search( _ps, grammarName );
         if ( result != 0 )
@@ -181,14 +153,12 @@ namespace SpeechRecognizer {
             eventLogMessage( "switch grammar:" + QString( grammarName ).toUtf8( ) );
     }
 
-    void SpeechRecognizerWrapper::setSearchKeyword( )
-    {
+    void SpeechRecognizerWrapper::setSearchKeyword( ) {
         if ( ( _ps != nullptr ) && ( _useKeyword ) )
             ps_set_search( _ps, KEYPHRASE_SEARCH );
     }
 
-    bool SpeechRecognizerWrapper::addGrammar( const char *grammarName , const char *grammarFileName )
-    {
+    bool SpeechRecognizerWrapper::addGrammar( const char *grammarName , const char *grammarFileName ) {
         if ( _ps == nullptr ) return false;
         int result = ps_set_jsgf_file( _ps, grammarName, grammarFileName );
         if ( result != 0 ) {
@@ -202,8 +172,7 @@ namespace SpeechRecognizer {
         }
     }
 
-    bool SpeechRecognizerWrapper::addGrammarString( const char *grammarName , const char *grammarString )
-    {
+    bool SpeechRecognizerWrapper::addGrammarString( const char *grammarName , const char *grammarString ) {
         if ( _ps == nullptr ) return false;
         int result = ps_set_jsgf_string( _ps, grammarName, grammarString );
 
@@ -218,9 +187,8 @@ namespace SpeechRecognizer {
         }
     }
 
-    bool SpeechRecognizerWrapper::addWordIntoDictionary( const char *word, const char *phones )
-    {
-        if ( ps_lookup_word( _ps, word ) == NULL) {
+    bool SpeechRecognizerWrapper::addWordIntoDictionary( const char *word, const char *phones ) {
+        if ( ps_lookup_word( _ps, word ) == NULL ) {
             return ( ps_add_word( _ps, word, phones, 1 ) >= 0);
         }
         else {
@@ -229,8 +197,7 @@ namespace SpeechRecognizer {
         }
     }
 
-    void SpeechRecognizerWrapper::startListening( )
-    {
+    void SpeechRecognizerWrapper::startListening( ) {
         eventLogMessage( "Start listening" );
         if ( _useKeyword ) {
             eventLogMessage( "Set search keyword" );
@@ -244,14 +211,12 @@ namespace SpeechRecognizer {
         recognizeFromMicrophone( );
     }
 
-    void SpeechRecognizerWrapper::stopListening( )
-    {
+    void SpeechRecognizerWrapper::stopListening( ) {
         eventLogMessage( "Stop listening" );
         ad_stop_rec( _ad );
     }
 
-    void SpeechRecognizerWrapper::readMicrophoneBuffer( )
-    {
+    void SpeechRecognizerWrapper::readMicrophoneBuffer( ) {
         if ( _ad == nullptr ) return;
         int32 k;
         int16 buffer[ 2048 ];
@@ -282,14 +247,11 @@ namespace SpeechRecognizer {
         }
     }
 
-    void SpeechRecognizerWrapper::saveLogIntoFile( bool value )
-    {
-       //eventLogMessage( "save log into file" );
+    void SpeechRecognizerWrapper::saveLogIntoFile( bool value ) {
        _logIntoFile = value;
     }
 
-    void SpeechRecognizerWrapper::setInputDeviceName( const char* name )
-    {
+    void SpeechRecognizerWrapper::setInputDeviceName( const char* name ) {
         _inputDeviceName = name;
     }
 }

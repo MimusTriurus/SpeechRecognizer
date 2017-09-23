@@ -1,6 +1,7 @@
 #ifndef SPEECHRECOGNIZERWRAPPER_H
 #define SPEECHRECOGNIZERWRAPPER_H
 
+#include <cctype>
 #include <err.h>
 #include <ad.h>
 #include <pocketsphinx.h>
@@ -48,7 +49,7 @@ class SpeechRecognizerWrapper
         /**
          * @brief конструктор
          */
-         SpeechRecognizerWrapper( );
+         SpeechRecognizerWrapper( ) { }
         /**
          * @brief настройка распознавания голоса
          * @param destination путь к папке где содержится акустическая модель, словарь и грамматика

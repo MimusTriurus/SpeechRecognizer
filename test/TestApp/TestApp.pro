@@ -11,6 +11,8 @@ greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 TARGET = TestApp
 TEMPLATE = app
 
+CONFIG +=c++11
+
 # The following define makes your compiler emit warnings if you use
 # any feature of Qt which as been marked as deprecated (the exact warnings
 # depend on your compiler). Please consult the documentation of the
@@ -24,8 +26,30 @@ DEFINES += QT_DEPRECATED_WARNINGS
 
 
 SOURCES += main.cpp\
-        mainwindow.cpp
+        mainwindow.cpp \
+        speakrecognition.cpp
 
-HEADERS  += mainwindow.h
+HEADERS  += mainwindow.h \
+        speakrecognition.h
 
 FORMS    += mainwindow.ui
+
+win32:CONFIG(release, debug|release): LIBS += -L$$OUT_PWD/../../lib/static/Dictionary/release/ -lDictionary
+else:win32:CONFIG(debug, debug|release): LIBS += -L$$OUT_PWD/../../lib/static/Dictionary/debug/ -lDictionary
+else:unix:!macx: LIBS += -L$$OUT_PWD/../../lib/static/Dictionary/ -lDictionary
+
+INCLUDEPATH += $$PWD/../../lib/static/Dictionary
+DEPENDPATH += $$PWD/../../lib/static/Dictionary
+
+win32-g++:CONFIG(release, debug|release): PRE_TARGETDEPS += $$OUT_PWD/../../lib/static/Dictionary/release/libDictionary.a
+else:win32-g++:CONFIG(debug, debug|release): PRE_TARGETDEPS += $$OUT_PWD/../../lib/static/Dictionary/debug/libDictionary.a
+else:win32:!win32-g++:CONFIG(release, debug|release): PRE_TARGETDEPS += $$OUT_PWD/../../lib/static/Dictionary/release/Dictionary.lib
+else:win32:!win32-g++:CONFIG(debug, debug|release): PRE_TARGETDEPS += $$OUT_PWD/../../lib/static/Dictionary/debug/Dictionary.lib
+else:unix:!macx: PRE_TARGETDEPS += $$OUT_PWD/../../lib/static/Dictionary/libDictionary.a
+
+win32:CONFIG(release, debug|release): LIBS += -L$$OUT_PWD/../../lib/dynamic/SpeechRecognizer/release/ -lSpeechRecognizer
+else:win32:CONFIG(debug, debug|release): LIBS += -L$$OUT_PWD/../../lib/dynamic/SpeechRecognizer/debug/ -lSpeechRecognizer
+else:unix:!macx: LIBS += -L$$OUT_PWD/../../lib/dynamic/SpeechRecognizer/ -lSpeechRecognizer
+
+INCLUDEPATH += $$PWD/../../lib/dynamic/SpeechRecognizer
+DEPENDPATH += $$PWD/../../lib/dynamic/SpeechRecognizer

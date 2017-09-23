@@ -1,1 +1,10 @@
-<RCC/>
+<RCC>
+    <qresource prefix="/">
+        <file>assets/ruDict.dict</file>
+        <file>assets/enDict.dict</file>
+        <file>assets/esDict.dict</file>
+        <file>assets/frDict.dict</file>
+        <file>assets/geDict.dict</file>
+        <file>assets/itDict.dict</file>
+    </qresource>
+</RCC>
