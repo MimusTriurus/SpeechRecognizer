@@ -35,3 +35,4 @@ unix {
 }
 
 RESOURCES += dictfiles.qrc
+one two

@@ -9,7 +9,7 @@ SpeakRecognition::SpeakRecognition( ) {
     SpeechRecognizer::setLogMessReciever( onRecieveLogMess );
     SpeechRecognizer::setCrashReciever( onRecieveCrashMess );
     SpeechRecognizer::setResultReciever( onRecieveResult );
-
+    //SpeechRecognizer::setInputDeviceName( "hw:1,0" );
     SpeechRecognizer::saveLogIntoFile( true );
 }
 

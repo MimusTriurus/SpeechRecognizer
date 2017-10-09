@@ -75,6 +75,10 @@ void MainWindow::initInterface( ) {
 
     _resultsArea.viewport( )->installEventFilter( this );
     mainLayout->addWidget( &_resultsArea );
+
+    auto *btnClose = new QPushButton( "Close app", this );
+    connect( btnClose, &QPushButton::clicked, []( ){ QApplication::quit( ); } );
+    mainLayout->addWidget( btnClose );
 }
 
 bool MainWindow::initSpeechRecognizer( ) {

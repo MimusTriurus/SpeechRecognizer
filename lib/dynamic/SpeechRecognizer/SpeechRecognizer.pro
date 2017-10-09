@@ -32,17 +32,26 @@ DEPENDPATH += $$PWD/include/sphinxbase
 INCLUDEPATH += $$PWD/include/win32
 DEPENDPATH += $$PWD/include/win32
 
-contains(QT_ARCH, i386) {
+equals(QT_ARCH, i386) {
     #message("32-bit")
     win32: LIBS += -L$$PWD/lib/win/x32/ -lsphinxbase
     win32: LIBS += -L$$PWD/lib/win/x32/ -lpocketsphinx
-
     win32: LIBS += -L$$PWD/lib/win/x32/ -lWinMM
 }
-else {
+
+equals(QT_ARCH, "x86_64") {
     #message("64-bit")
     win32: LIBS += -L$$PWD/lib/win/x64/ -lsphinxbase
     win32: LIBS += -L$$PWD/lib/win/x64/ -lpocketsphinx
-
     win32: LIBS += -L$$PWD/lib/win/x64/ -lWinMM
 }
+
+equals(QT_ARCH, arm) {
+    #message("raspbian")
+    unix: LIBS += -L$$PWD/lib/raspbian/ -lpocketsphinx
+    unix: LIBS += -L$$PWD/lib/raspbian/ -lsphinxad
+    unix: LIBS += -L$$PWD/lib/raspbian/ -lsphinxbase
+}
+
+unix: LIBS += -lpulse
+unix: LIBS += -lpulse-simple

@@ -31,7 +31,6 @@ namespace SpeechRecognizer {
     };
 
     static const char* KWS_THRESHOLD = "-kws_threshold";
-    static const char* ADD_DICT_FILE = "-dict";
     static const char* KEYPHRASE_SEARCH = "keyphrase_search";
 
     void SpeechRecognizerWrapper::eventRecognitionResult( const char *value ) {
@@ -93,6 +92,11 @@ namespace SpeechRecognizer {
             }
         }
         return true;
+    }
+
+    SpeechRecognizerWrapper::~SpeechRecognizerWrapper( )
+    {
+
     }
 
     bool SpeechRecognizerWrapper::runRecognizerSetup( const char *destination ) {

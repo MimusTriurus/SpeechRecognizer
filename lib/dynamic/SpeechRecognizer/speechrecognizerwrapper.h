@@ -50,6 +50,7 @@ class SpeechRecognizerWrapper
          * @brief конструктор
          */
          SpeechRecognizerWrapper( ) { }
+         ~SpeechRecognizerWrapper( );
         /**
          * @brief настройка распознавания голоса
          * @param destination путь к папке где содержится акустическая модель, словарь и грамматика

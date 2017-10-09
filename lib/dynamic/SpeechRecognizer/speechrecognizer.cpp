@@ -6,55 +6,55 @@ namespace SpeechRecognizer
 {
     static SpeechRecognizerWrapper speechRecognizer;
 
-    void SpeechRecognizer::setBaseGrammar( const char *grammarName ) {
+    void setBaseGrammar( const char *grammarName ) {
         speechRecognizer.setBaseGrammar( grammarName );
     }
 
-    void SpeechRecognizer::changeGrammar( const char *grammarName ) {
+    void changeGrammar( const char *grammarName ) {
         speechRecognizer.switchGrammar( grammarName );
     }
 
-    bool SpeechRecognizer::runRecognizerSetup( const char *destination ) {
+    bool runRecognizerSetup( const char *destination ) {
         return speechRecognizer.runRecognizerSetup( destination );
     }
 
-    void SpeechRecognizer::startListeningMic( ) {
+    void startListeningMic( ) {
         speechRecognizer.startListening( );
     }
 
-    void SpeechRecognizer::stopListeningMic( ) {
+    void stopListeningMic( ) {
         speechRecognizer.stopListening( );
     }
 
-    void SpeechRecognizer::saveLogIntoFile( bool value ) {
+    void saveLogIntoFile( bool value ) {
         speechRecognizer.saveLogIntoFile( value );
     }
 
-    bool SpeechRecognizer::addGrammarFile( const char *grammarName, const char *grammarFile ) {
+    bool addGrammarFile( const char *grammarName, const char *grammarFile ) {
         return speechRecognizer.addGrammar( grammarName, grammarFile );
     }
 
-    void SpeechRecognizer::readMicBuffer( ) {
+    void readMicBuffer( ) {
         speechRecognizer.readMicrophoneBuffer( );
     }
 
-    void SpeechRecognizer::setKeyword( const char *keyword ) {
+    void setKeyword( const char *keyword ) {
         speechRecognizer.setKeyword( keyword );
     }
 
-    void SpeechRecognizer::setThreshold( double threshold ) {
+    void setThreshold( double threshold ) {
         speechRecognizer.setThreshold( threshold );
     }
 
-    void SpeechRecognizer::setSearchKeyword( ) {
+    void setSearchKeyword( ) {
         speechRecognizer.setSearchKeyword( );
     }
 
-    bool SpeechRecognizer::addGrammarString( const char *grammarName, const char *grammarString ) {
+    bool addGrammarString( const char *grammarName, const char *grammarString ) {
         return speechRecognizer.addGrammarString( grammarName, grammarString );
     }
 
-    bool SpeechRecognizer::addWordIntoDictionary( const char *word, const char *phones ) {
+    bool addWordIntoDictionary( const char *word, const char *phones ) {
         return speechRecognizer.addWordIntoDictionary( word, phones );
     }
 
