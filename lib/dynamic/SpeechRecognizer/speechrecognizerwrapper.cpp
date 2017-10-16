@@ -83,7 +83,7 @@ namespace SpeechRecognizer {
             QString path( file.readLine( ) );
             path.prepend( assetsFilePath );
             path = QDir::toNativeSeparators( path );
-            // зменить следующие две строки на регулярное выражение
+            // зaменить следующие две строки на регулярное выражение
             path = path.remove('\r');
             path = path.remove('\n');
             if ( !QFile( path ).exists( ) ) {
@@ -94,13 +94,23 @@ namespace SpeechRecognizer {
         return true;
     }
 
-    SpeechRecognizerWrapper::~SpeechRecognizerWrapper( )
-    {
+    void SpeechRecognizerWrapper::freeAllResources( ) {
+        if ( _ad != nullptr )
+            ad_close( _ad );
+        if ( _ps != nullptr )
+            ps_free( _ps );
+        if ( _config != nullptr )
+            cmd_ln_free_r( _config );
+    }
 
+    SpeechRecognizerWrapper::~SpeechRecognizerWrapper( ) {
+        freeAllResources( );
     }
 
     bool SpeechRecognizerWrapper::runRecognizerSetup( const char *destination ) {
         QString hmmDest = QDir::toNativeSeparators( destination );
+
+        freeAllResources( );
 
         if ( !checkAcousticModelFiles( destination ) )
             return false;

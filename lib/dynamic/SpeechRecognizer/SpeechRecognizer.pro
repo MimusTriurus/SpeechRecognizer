@@ -37,6 +37,10 @@ equals(QT_ARCH, i386) {
     win32: LIBS += -L$$PWD/lib/win/x32/ -lsphinxbase
     win32: LIBS += -L$$PWD/lib/win/x32/ -lpocketsphinx
     win32: LIBS += -L$$PWD/lib/win/x32/ -lWinMM
+
+    unix: LIBS += -L$$PWD/lib/linux/x32/ -lpocketsphinx
+    unix: LIBS += -L$$PWD/lib/linux/x32/ -lsphinxad
+    unix: LIBS += -L$$PWD/lib/linux/x32/ -lsphinxbase
 }
 
 equals(QT_ARCH, "x86_64") {
@@ -44,6 +48,10 @@ equals(QT_ARCH, "x86_64") {
     win32: LIBS += -L$$PWD/lib/win/x64/ -lsphinxbase
     win32: LIBS += -L$$PWD/lib/win/x64/ -lpocketsphinx
     win32: LIBS += -L$$PWD/lib/win/x64/ -lWinMM
+
+    unix: LIBS += -L$$PWD/lib/linux/x64/ -lpocketsphinx
+    unix: LIBS += -L$$PWD/lib/linux/x64/ -lsphinxad
+    unix: LIBS += -L$$PWD/lib/linux/x64/ -lsphinxbase
 }
 
 equals(QT_ARCH, arm) {
@@ -53,5 +61,5 @@ equals(QT_ARCH, arm) {
     unix: LIBS += -L$$PWD/lib/raspbian/ -lsphinxbase
 }
 
-unix: LIBS += -lpulse
-unix: LIBS += -lpulse-simple
+unix: LIBS += -lasound
+#unix: LIBS += -lpulse-simple

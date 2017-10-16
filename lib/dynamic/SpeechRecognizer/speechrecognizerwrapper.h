@@ -45,6 +45,8 @@ class SpeechRecognizerWrapper
         void recognizeFromMicrophone( );
 
         bool checkAcousticModelFiles( const char* assetsFilePath );
+
+        void freeAllResources( );
     public:
         /**
          * @brief конструктор

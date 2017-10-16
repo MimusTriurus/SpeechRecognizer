@@ -130,6 +130,9 @@ void MainWindow::onLanguageChange( int index ) {
     case Language::ru_RU:
         path.append( "/acousticModels/ru/" );
         break;
+    default:
+        path.append( "/acousticModels/eng/" );
+        break;
     }
     _dict->switchLanguage( lang );
     _acousticModelPath = QDir::toNativeSeparators( path );
