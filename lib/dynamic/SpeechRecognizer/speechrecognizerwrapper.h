@@ -32,7 +32,7 @@ class SpeechRecognizerWrapper
         double _threshold = 1e+10f;
 
         QString _baseGrammarName = "";
-        QString _inputDeviceName = "";
+        QString _inputDeviceName = "sysdefault";
 
         const QString ASSEST_FILE_NAME = "assets.lst";
 

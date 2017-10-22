@@ -65,7 +65,7 @@ void MainWindow::initInterface( ) {
     auto *btnLbl = new QLabel( "3. Start recognition", this );
     mainLayout->addWidget( btnLbl );
 
-    _btnStart.setText( "Start" );
+    _btnStart.setText( START_CAPTION );
     connect( &_btnStart, SIGNAL( clicked( ) ), this, SLOT( onBtnStartChangeStatus( ) ) );
     _btnStart.setEnabled( false );
     mainLayout->addWidget( &_btnStart );
@@ -146,20 +146,20 @@ void MainWindow::onLanguageChange( int index ) {
 void MainWindow::onLoadDict( int value ) {
     if ( value == 100 ) {
         _btnStart.setEnabled( true );
-        _btnStart.setText( "Start" );
+        _btnStart.setText( START_CAPTION );
     }
 }
 
 void MainWindow::onBtnStartChangeStatus( ) {
     _start = !_start;
     if ( _start ) {
-        _btnStart.setText( "Stop" );
+        _btnStart.setText( STOP_CAPTION );
         auto initResult = initSpeechRecognizer( );
         if ( initResult )
             SpeakRecognition::instance( ).startRecognition( );
     }
     else {
-        _btnStart.setText( "Start" );
+        _btnStart.setText( START_CAPTION );
         SpeakRecognition::instance( ).stopRecognition( );
     }
 }

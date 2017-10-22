@@ -9,7 +9,6 @@ SpeakRecognition::SpeakRecognition( ) {
     SpeechRecognizer::setLogMessReciever( onRecieveLogMess );
     SpeechRecognizer::setCrashReciever( onRecieveCrashMess );
     SpeechRecognizer::setResultReciever( onRecieveResult );
-    SpeechRecognizer::setInputDeviceName( "sysdefault" );
     SpeechRecognizer::saveLogIntoFile( true );
 }
 
