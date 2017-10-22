@@ -77,7 +77,7 @@ void MainWindow::initInterface( ) {
     mainLayout->addWidget( &_resultsArea );
 
     auto *btnClose = new QPushButton( "Close app", this );
-    connect( btnClose, &QPushButton::clicked, []( ){ QApplication::quit( ); } );
+    connect( btnClose, &QPushButton::clicked, [ ]( ){ QApplication::quit( ); } );
     mainLayout->addWidget( btnClose );
 }
 
@@ -136,11 +136,16 @@ void MainWindow::onLanguageChange( int index ) {
     }
     _dict->switchLanguage( lang );
     _acousticModelPath = QDir::toNativeSeparators( path );
+
     _start = false;
     _btnStart.setDisabled( true );
     SpeakRecognition::instance( ).stopRecognition( );
     _wordsArea.clear( );
     _resultsArea.clear( );
+
+    QDir acousticDir( _acousticModelPath );
+    if ( !acousticDir.exists( ) )
+        onCrashRecieve( " Acoustic model path '" + _acousticModelPath + "' not found." );
 }
 
 void MainWindow::onLoadDict( int value ) {

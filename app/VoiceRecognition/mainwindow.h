@@ -26,8 +26,8 @@ class MainWindow : public QMainWindow
     Q_OBJECT
     Dictionary *_dict;
     Ui::MainWindow *ui;
-    const QString START_CAPTION = "Start";
-    const QString STOP_CAPTION = "Stop";
+    const QString START_CAPTION { "Start" };
+    const QString STOP_CAPTION { "Stop" };
     bool _start = false;
     QPushButton _btnStart;
     QTextEdit _wordsArea;

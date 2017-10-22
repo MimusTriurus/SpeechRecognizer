@@ -1,6 +1,7 @@
 #include "speakrecognition.h"
 
 #include <QDebug>
+#include <QApplication>
 
 SpeakRecognition::SpeakRecognition( ) {
     connect( &_tmrReadMicBuffer, SIGNAL( timeout( ) ), this, SLOT( onTimeout( ) ) );
@@ -9,7 +10,21 @@ SpeakRecognition::SpeakRecognition( ) {
     SpeechRecognizer::setLogMessReciever( onRecieveLogMess );
     SpeechRecognizer::setCrashReciever( onRecieveCrashMess );
     SpeechRecognizer::setResultReciever( onRecieveResult );
+
+    tryGetInputDeviceFromArg( );
+
     SpeechRecognizer::saveLogIntoFile( true );
+}
+
+void SpeakRecognition::tryGetInputDeviceFromArg( ) {
+    if ( !qApp->arguments( ).contains( MIC_PARAM_ID ) ) return;
+    for ( int i{ 0 }; i < qApp->arguments( ).size( ); ++i ) {
+        if ( qApp->arguments( ).at( i ) == MIC_PARAM_ID ) {
+            QString inputDeviceName{ qApp->arguments( ).at( i + 1 ) };
+            SpeechRecognizer::setInputDeviceName( inputDeviceName.toUtf8( ) );
+            return;
+        }
+    }
 }
 
 SpeakRecognition &SpeakRecognition::instance( ) {

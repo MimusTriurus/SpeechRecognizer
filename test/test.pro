@@ -1,6 +1,5 @@
 TEMPLATE = subdirs
 
 SUBDIRS += \
-    TestApp \
-    GetMicrophonesList
+    TestApp
 

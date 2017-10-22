@@ -14,9 +14,11 @@ class SpeakRecognition : public QObject
 {
     Q_OBJECT
     QTimer _tmrReadMicBuffer;
-    bool _init = false;
-    const int INTERVAL = 100;
+    bool _init { false };
+    const int INTERVAL { 100 };
+    const QString MIC_PARAM_ID { "-adcdev" };
     SpeakRecognition( );
+    void tryGetInputDeviceFromArg( );
 public:
     static SpeakRecognition &instance( );
     bool init( const QString acousticModelPath );
