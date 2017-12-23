@@ -11,6 +11,12 @@ TEMPLATE = lib
 
 CONFIG += c++11
 
+DESTDIR = ../../../bin
+
+MOC_DIR = moc
+
+OBJECTS_DIR = obj
+
 DEFINES += SPEECHRECOGNIZER_LIBRARY
 
 SOURCES += speechrecognizer.cpp \
