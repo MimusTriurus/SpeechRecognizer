@@ -53,7 +53,7 @@ else:win32:!win32-g++:CONFIG(release, debug|release): PRE_TARGETDEPS += $$OUT_PW
 else:win32:!win32-g++:CONFIG(debug, debug|release): PRE_TARGETDEPS += $$OUT_PWD/../../lib/static/Dictionary/debug/Dictionary.lib
 else:unix:!macx: PRE_TARGETDEPS += $$OUT_PWD/../../lib/static/Dictionary/libDictionary.a
 
-win32: LIBS += -L$$OUT_PWD/../../bin/ -lSpeechRecognizer
+LIBS += -L$$OUT_PWD/../../bin/ -lSpeechRecognizer
 
 INCLUDEPATH += $$PWD/../../lib/dynamic/SpeechRecognizer
 DEPENDPATH += $$PWD/../../lib/dynamic/SpeechRecognizer
