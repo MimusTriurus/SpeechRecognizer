@@ -2,7 +2,9 @@
 Проект офлайн распознавания речи. В основе - библиотека pocketsphinx(статическая сборка).
 ---------
 Основа проекта - динамическая библиотека SpeechRecognizer (SpeechRecognizer->lib->dynamic).
-Библиотека SpeechRecognizer создавалась в расчете на последующее использование совместно с Unity.
+
+Библиотека SpeechRecognizer создавалась в расчете на последующую интеграцию в проекты на Unity 5 за счет использования обертки(коннектора) UnitySpeechRecognizer ( https://github.com/MimusTriurus/UnitySpeechRecognizer ).
+
 Приложение для демонстрации распознаванию речи - VoiceRecognition (SpeechRecognizer->app).
 
 Системные требования:
