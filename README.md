@@ -17,7 +17,7 @@ Setup for Windows:
 ---------
 1. Clone the repository;
 2. If required – setup compilation flag –  j*, where “*” is the number of cores being used in the process of compilation;
-3. Assemble main project SpeechRecognizer;
+3. Build main project SpeechRecognizer;
 4. Download files of acoustic model  https://cloud.mail.ru/public/74Jz/ifWwr2p2r and expand compressed files to the folder with  executive file VoiceRecognition.exe.
 
 Setup for Linux:
@@ -25,10 +25,10 @@ Setup for Linux:
 1. Clone the repository;
 2. Install library libasound2-dev by keying in in the console command “sudo apt-get install libasound2-dev” (so that pocketsphinx used Alsa, not pulseaudio by default);
 3. If required – setup compilation flag –  j*, where “*” is the number of cores being used in the process of compilation;
-4. Assemble main project SpeechRecognizer;
+4. Build main project SpeechRecognizer;
 5. Download files of acoustic model  https://cloud.mail.ru/public/74Jz/ifWwr2p2r and expand compressed files to the folder with  executive file VoiceRecognition.
 
-Setup for  Raspbian
+Setup for  Raspbian:
 ---------
 1. Create swap file (size 1 Gb) following the steps as below:
 	a) open the file by keying in in the console command “sudo nano /etc/dphys-swapfile”;
@@ -37,7 +37,7 @@ Setup for  Raspbian
 2. Clone the repository;
 3. Install library libasound2-dev by keying in in the console command “sudo apt-get install libasound2-dev” (so that pocketsphinx used Alsa, not pulseaudio by default);
 4. If required – setup compilation flag –  j*, where “*” is the number of cores being used in the process of compilation;
-5. Assemble main project SpeechRecognizer;
+5. Build main project SpeechRecognizer;
 6. Download files of acoustic model  https://cloud.mail.ru/public/74Jz/ifWwr2p2r and expand compressed files to the folder with  executive file VoiceRecognition.
 
 Remarks:
