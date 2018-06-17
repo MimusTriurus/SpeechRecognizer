@@ -10,7 +10,7 @@ System requirements:
 ---------
 1. ОС: Windows(x86, x64), Ubuntu 16.04(x86, x64), Raspbian;
 2. Qt 5.5.1 or higher;
-3. Compiler with support for c++ 11;
+3. Compiler with support for c++ 11 (msvc14 on Windows);
 4. Microphone.
 
 Setup for Windows:
