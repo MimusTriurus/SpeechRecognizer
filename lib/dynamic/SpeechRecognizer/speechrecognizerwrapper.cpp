@@ -103,13 +103,28 @@ void SpeechRecognizerWrapper::freeAllResources( ) {
         cmd_ln_free_r( _config );
 }
 
+SpeechRecognizerWrapper::SpeechRecognizerWrapper( ) :
+    _ps{ nullptr },
+    _config{ nullptr },
+    _ad{ nullptr },
+    _utt_started{ 0 },
+    _logIntoFile{ true },
+    _useKeyword{ false },
+    _threshold{ 1e+10f },
+    _baseGrammarName{ QString( ) },
+    _inputDeviceName{ "sysdefault" },
+    ASSEST_FILE_NAME{ "assets.lst" }
+{
+
+}
+
 SpeechRecognizerWrapper::~SpeechRecognizerWrapper( ) {
     freeAllResources( );
 }
 
 bool SpeechRecognizerWrapper::runRecognizerSetup( const char *destination ) {
     QString hmmDest = QDir::toNativeSeparators( destination );
-
+    _useKeyword = false;
     freeAllResources( );
 
     if ( !checkAcousticModelFiles( destination ) )
@@ -121,8 +136,6 @@ bool SpeechRecognizerWrapper::runRecognizerSetup( const char *destination ) {
                            "-inmic", "yes",
                            "-adcdev", _inputDeviceName.toUtf8( ).data( ),
                            nullptr );
-    if ( _useKeyword )
-        cmd_ln_set_float_r( _config, KWS_THRESHOLD, _threshold );
     if ( _logIntoFile ) {
         QString logDest = destination;
         logDest.append( QDate::currentDate(  ).toString( "dd_MM_yy" ) +  ".log" );
@@ -168,6 +181,8 @@ void SpeechRecognizerWrapper::switchGrammar( const char *grammarName ) {
 }
 
 void SpeechRecognizerWrapper::setSearchKeyword( ) {
+    if ( _useKeyword )
+        cmd_ln_set_float_r( _config, KWS_THRESHOLD, _threshold );
     if ( ( _ps != nullptr ) & ( _useKeyword ) )
         ps_set_search( _ps, KEYPHRASE_SEARCH );
 }

@@ -5,11 +5,11 @@ Grammar::Grammar( QObject *parent ) : QObject( parent ) {
 
 }
 
-void Grammar::addWord( QString word ) {
+void Grammar::addWord( const QString &word ) {
     _words.append( word.toLower( ) );
 }
 
-QString Grammar::toString( ) {
+QString Grammar::toString( ) const {
     if ( _words.empty( ) ) {
         return QString( );
     }

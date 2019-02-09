@@ -7,39 +7,32 @@
 #include "languages.h"
 #include "dictreader.h"
 
-class Dictionary : public QObject
-{
+class Dictionary : public QObject {
     Q_OBJECT
-    QMap<QString, QString> _dict;
 public:
-    /**
-     * @brief конструктор класса
-     * @param value язык словаря
-     */
-    Dictionary( Language value = Language::en_US, QObject *parent = nullptr ) : QObject( parent ) { switchLanguage( value ); }
     /**
      * @brief конструктор класса по умолчанию
      */
-    explicit Dictionary( QObject *parent = nullptr ) : QObject( parent ) { }
+    explicit Dictionary( QObject *parent = nullptr );
 
-    ~Dictionary( ) { }
+    ~Dictionary( );
     /**
      * @brief смена словаря
      * @param value язык словаря
      */
-    void switchLanguage( Language value = Language::en_US );
+    void switchLanguage( Language value );
     /**
      * @brief метод получения транскрипции слова
      * @param word слово
      * @return транскрипция
      */
-    QString getWordPhones( QString word ) const ;
+    QString getWordPhones( const QString &word ) const ;
     /**
      * @brief проверка наличия слова в словаре
      * @param word искомое слово
      * @return результат поиска
      */
-    bool containsWord( QString word ) const;
+    bool containsWord( const QString &word ) const;
 signals:
     /**
      * @brief прогресс чтение файла словаря
@@ -53,6 +46,8 @@ signals:
      * @param mess сообщение с ошибкой
      */
     void notContainWord( QString );
+private:
+    QMap<QString, QString> _dict;
 private slots:
     /**
      * @brief уведомление о нахождении в файле словаря
@@ -60,7 +55,7 @@ private slots:
      * @param word слово
      * @param phones фонема
      */
-    void onGetWordAndPhones( QString word, QString phones );
+    void onGetWordAndPhones( const QString &word, const QString &phones );
     /**
      * @brief прогресс чтение файла словаря
      * @param currentPercent текущий процент выполнения чтения файла словаря

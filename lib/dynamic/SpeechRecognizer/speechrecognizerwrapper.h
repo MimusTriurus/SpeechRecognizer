@@ -22,7 +22,7 @@ namespace SpeechRecognizer {
 class SpeechRecognizerWrapper {
 
 public:
-    SpeechRecognizerWrapper( ) { }
+    SpeechRecognizerWrapper( );
     ~SpeechRecognizerWrapper( );
     /**
     * @brief настройка распознавания голоса
@@ -118,15 +118,15 @@ private:
     ad_rec_t *_ad;
     uint8 _utt_started;
 
-    bool _logIntoFile{ true };
-    bool _useKeyword{ false };
+    bool _logIntoFile;
+    bool _useKeyword;
 
-    double _threshold{ 1e+10f };
+    double _threshold;
 
-    QString _baseGrammarName{ "" };
-    QString _inputDeviceName{ "sysdefault" };
+    QString _baseGrammarName;
+    QString _inputDeviceName;
 
-    const QString ASSEST_FILE_NAME{ "assets.lst" };
+    const QString ASSEST_FILE_NAME;
 
     void eventRecognitionResult( const char* value );
 

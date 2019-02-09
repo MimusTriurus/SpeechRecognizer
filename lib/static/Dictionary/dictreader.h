@@ -7,14 +7,8 @@
 
 #include "languages.h"
 
-class DictReader : public QThread
-{
+class DictReader : public QThread {
     Q_OBJECT
-    Language _currentLang = Language::en_US;
-    QString getDictFilePath( Language value );
-    int checkPercent( int current, int count );
-protected:
-    void run( ) override;
 public:
     /**
      * @brief конструктор класса
@@ -35,7 +29,12 @@ signals:
      * @param phones фонема
      */
     void wordAndPhonesExtracted( QString word, QString phones );
-public slots:
+protected:
+    void run( ) override;
+private:
+    Language _currentLang;
+    QString getDictFilePath( Language value );
+    int checkPercent( int current, int count );
 };
 
 #endif // DICTREADER_H

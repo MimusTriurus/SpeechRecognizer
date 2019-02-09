@@ -4,6 +4,16 @@
 #include <QFile>
 #include <QResource>
 
+Dictionary::Dictionary( QObject *parent ) :
+    QObject{ parent }
+{
+
+}
+
+Dictionary::~Dictionary( ) {
+
+}
+
 void Dictionary::switchLanguage( Language value ) {
     DictReader *dictReader = new DictReader( value );
     connect( dictReader, SIGNAL( finished( ) ), dictReader, SLOT( deleteLater( ) ) );
@@ -12,7 +22,7 @@ void Dictionary::switchLanguage( Language value ) {
     dictReader->start( );
 }
 
-QString Dictionary::getWordPhones( QString word ) const {
+QString Dictionary::getWordPhones( const QString &word ) const {
     if ( _dict.contains( word ) ) {
         return _dict[ word ];
     }
@@ -21,11 +31,11 @@ QString Dictionary::getWordPhones( QString word ) const {
     }
 }
 
-bool Dictionary::containsWord( QString word ) const {
+bool Dictionary::containsWord( const QString &word ) const {
     return _dict.contains( word );
 }
 
-void Dictionary::onGetWordAndPhones( QString word, QString phones ) {
+void Dictionary::onGetWordAndPhones( const QString &word, const QString &phones ) {
     if ( !_dict.contains( word ) ) {
         _dict.insert( word, phones );
     }

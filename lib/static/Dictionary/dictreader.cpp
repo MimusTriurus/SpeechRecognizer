@@ -32,7 +32,9 @@ void DictReader::run( ) {
         qDebug( ) << "error on open file" << dictFilePath << "Use Q_INIT_RESOURCE( dictfiles ); in main.cpp to init resource file";
 }
 
-DictReader::DictReader( Language value ) : _currentLang( value ) {
+DictReader::DictReader( Language value ) :
+    _currentLang{ value }
+{
 
 }
 
