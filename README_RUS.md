@@ -38,6 +38,7 @@
 6. Скачать файлы акустической модели https://cloud.mail.ru/public/74Jz/ifWwr2p2r и извлечь в папку с исполняемым файлом VoiceRecognition.
 
 Примечание:
+0. Для статической сборки на Windows необходимо добавить "#undef SPHINX_DLL" в pocketsphinx_export.h и sphinxbase_export.h
 1. Для статической сборки библиотек pocketsphinx команду make следует выполнять с флагом CFLAGS="-static";
 2. Для установки скомпиленных библиотек следует выполнить make install DESTDIR=<каталог>;
 3. Тестовое приложение VoiceRecognition и библиотека SpeechRecognizer находятся в папке bin;
