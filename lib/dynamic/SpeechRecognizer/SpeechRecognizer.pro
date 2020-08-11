@@ -4,7 +4,7 @@
 #
 #-------------------------------------------------
 
-QT       -= gui
+QT       -= gui core
 
 TARGET = SpeechRecognizer
 TEMPLATE = lib
@@ -42,7 +42,7 @@ equals(QT_ARCH, i386) {
     #message("32-bit")
     win32: LIBS += -L$$PWD/lib/win/x32/ -lsphinxbase
     win32: LIBS += -L$$PWD/lib/win/x32/ -lpocketsphinx
-    win32: LIBS += -L$$PWD/lib/win/x32/ -lWinMM
+    win32: LIBS += -lWinMM
 
     unix: LIBS += -L$$PWD/lib/linux/x32/ -lpocketsphinx
     unix: LIBS += -L$$PWD/lib/linux/x32/ -lsphinxad
@@ -53,7 +53,7 @@ equals(QT_ARCH, "x86_64") {
     #message("64-bit")
     win32: LIBS += -L$$PWD/lib/win/x64/ -lsphinxbase
     win32: LIBS += -L$$PWD/lib/win/x64/ -lpocketsphinx
-    win32: LIBS += -L$$PWD/lib/win/x64/ -lWinMM
+    win32: LIBS += -lWinMM
 
     unix: LIBS += -L$$PWD/lib/linux/x64/ -lpocketsphinx
     unix: LIBS += -L$$PWD/lib/linux/x64/ -lsphinxad

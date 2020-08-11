@@ -6,8 +6,7 @@
 #include <ad.h>
 #include <pocketsphinx.h>
 
-#include <QDir>
-#include <QDebug>
+#include <string>
 
 namespace SpeechRecognizer {
 /**
@@ -123,10 +122,10 @@ private:
 
     double _threshold;
 
-    QString _baseGrammarName;
-    QString _inputDeviceName;
+    std::string _baseGrammarName;
+    std::string _inputDeviceName;
 
-    const QString ASSEST_FILE_NAME;
+    const std::string ASSEST_FILE_NAME;
 
     void eventRecognitionResult( const char* value );
 

@@ -1,9 +1,7 @@
 #ifndef SPEECHRECOGNIZER_H
 #define SPEECHRECOGNIZER_H
 
-#include <QtGlobal>
-
-#if defined( Q_CC_MSVC )
+#if defined( _WIN32 )
 #define FUNCTION_EXPORT __declspec( dllexport )
 #else
 #define FUNCTION_EXPORT
