@@ -10,16 +10,9 @@
 #include "languages.h"
 #include "speechrecognizer.h"
 
-class SpeakRecognition : public QObject
-{
-    Q_OBJECT
-    QTimer _tmrReadMicBuffer;
-    bool _init { false };
-    const int INTERVAL { 100 };
-    const QString MIC_PARAM_ID { "-adcdev" };
-    SpeakRecognition( );
-    void tryGetInputDeviceFromArg( );
+class SpeakRecognition : public QObject {
 public:
+    ~SpeakRecognition ( );
     static SpeakRecognition &instance( );
     bool init( const QString acousticModelPath );
     void addWord( const QString word, const QString phones );
@@ -35,7 +28,17 @@ private slots:
     void onTimeout( );
     static void onRecieveResult( const char *hypothesis );
     static void onRecieveLogMess( const char *logMess );
-    static void onRecieveCrashMess( const char *crashMess );
+    static void onRecieveCrashMess ( const char *crashMess );
+
+private:
+    Q_OBJECT
+    void *        _ptr;
+    QTimer        _tmrReadMicBuffer;
+    bool          _init{ false };
+    const int     INTERVAL{ 100 };
+    const QString MIC_PARAM_ID{ "-adcdev" };
+    SpeakRecognition ( );
+    void tryGetInputDeviceFromArg ( );
 };
 
 #endif // SPEAKRECOGNITION_H

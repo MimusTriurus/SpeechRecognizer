@@ -2,80 +2,106 @@
 
 #include "speechrecognizerwrapper.h"
 
-namespace SpeechRecognizer
-{
-    static SpeechRecognizerWrapper speechRecognizer;
+namespace SpeechRecognizer {
 
-    void setBaseGrammar( const char *grammarName ) {
-        speechRecognizer.setBaseGrammar( grammarName );
-    }
+void setBaseGrammar ( void *ptr, const char *grammarName ) {
+    auto sr = reinterpret_cast<SpeechRecognizerWrapper *> ( ptr );
+    sr->setBaseGrammar ( grammarName );
+}
 
-    void changeGrammar( const char *grammarName ) {
-        speechRecognizer.switchGrammar( grammarName );
-    }
+void changeGrammar ( void *ptr, const char *grammarName ) {
+    auto sr = reinterpret_cast<SpeechRecognizerWrapper *> ( ptr );
+    sr->switchGrammar ( grammarName );
+}
 
-    bool runRecognizerSetup( const char *destination ) {
-        return speechRecognizer.runRecognizerSetup( destination );
-    }
+bool runRecognizerSetup ( void *ptr, const char *destination ) {
+    auto sr = reinterpret_cast<SpeechRecognizerWrapper *> ( ptr );
+    return sr->runRecognizerSetup ( destination );
+}
 
-    void startListeningMic( ) {
-        speechRecognizer.startListening( );
-    }
+void startListeningMic ( void *ptr ) {
+    auto sr = reinterpret_cast<SpeechRecognizerWrapper *> ( ptr );
+    sr->startListening ( );
+}
 
-    void stopListeningMic( ) {
-        speechRecognizer.stopListening( );
-    }
+void stopListeningMic ( void *ptr ) {
+    auto sr = reinterpret_cast<SpeechRecognizerWrapper *> ( ptr );
+    sr->stopListening ( );
+}
 
-    void saveLogIntoFile( bool value ) {
-        speechRecognizer.saveLogIntoFile( value );
-    }
+void saveLogIntoFile ( void *ptr, bool value ) {
+    auto sr = reinterpret_cast<SpeechRecognizerWrapper *> ( ptr );
+    sr->saveLogIntoFile ( value );
+}
 
-    bool addGrammarFile( const char *grammarName, const char *grammarFile ) {
-        return speechRecognizer.addGrammar( grammarName, grammarFile );
-    }
+bool addGrammarFile ( void *ptr, const char *grammarName, const char *grammarFile ) {
+    auto sr = reinterpret_cast<SpeechRecognizerWrapper *> ( ptr );
+    return sr->addGrammar ( grammarName, grammarFile );
+}
 
-    void readMicBuffer( ) {
-        speechRecognizer.readMicrophoneBuffer( );
-    }
+void readMicBuffer ( void *ptr ) {
+    auto sr = reinterpret_cast<SpeechRecognizerWrapper *> ( ptr );
+    sr->readMicrophoneBuffer ( );
+}
 
-    void setKeyword( const char *keyword ) {
-        speechRecognizer.setKeyword( keyword );
-    }
+void setKeyword ( void *ptr, const char *keyword ) {
+    auto sr = reinterpret_cast<SpeechRecognizerWrapper *> ( ptr );
+    sr->setKeyword ( keyword );
+}
 
-    void setThreshold( double threshold ) {
-        speechRecognizer.setThreshold( threshold );
-    }
+void setThreshold ( void *ptr, double threshold ) {
+    auto sr = reinterpret_cast<SpeechRecognizerWrapper *> ( ptr );
+    sr->setThreshold ( threshold );
+}
 
-    void setSearchKeyword( ) {
-        speechRecognizer.setSearchKeyword( );
-    }
+void setSearchKeyword ( void *ptr ) {
+    auto sr = reinterpret_cast<SpeechRecognizerWrapper *> ( ptr );
+    sr->setSearchKeyword ( );
+}
 
-    bool addGrammarString( const char *grammarName, const char *grammarString ) {
-        return speechRecognizer.addGrammarString( grammarName, grammarString );
-    }
+bool addGrammarString ( void *ptr, const char *grammarName, const char *grammarString ) {
+    auto sr = reinterpret_cast<SpeechRecognizerWrapper *> ( ptr );
+    return sr->addGrammarString ( grammarName, grammarString );
+}
 
-    bool addWordIntoDictionary( const char *word, const char *phones ) {
-        return speechRecognizer.addWordIntoDictionary( word, phones );
-    }
+bool addWordIntoDictionary ( void *ptr, const char *word, const char *phones ) {
+    auto sr = reinterpret_cast<SpeechRecognizerWrapper *> ( ptr );
+    return sr->addWordIntoDictionary ( word, phones );
+}
 
-    void setInputDeviceName( const char *inputDeviceName ) {
-        speechRecognizer.setInputDeviceName( inputDeviceName );
-    }
+void setInputDeviceName ( void *ptr, const char *inputDeviceName ) {
+    auto sr = reinterpret_cast<SpeechRecognizerWrapper *> ( ptr );
+    sr->setInputDeviceName ( inputDeviceName );
+}
 
-    void setResultReciever( void ( *func )( const char * ) ) {
-        speechRecognizer.recognitionResult = func;
-    }
+void setResultReciever ( void *ptr, void ( *func ) ( const char * ) ) {
+    auto sr = reinterpret_cast<SpeechRecognizerWrapper *> ( ptr );
+    sr->recognitionResult = func;
+}
 
-    void setCrashReciever( void ( *func )( const char * ) ) {
-        speechRecognizer.crashMessage = func;
-    }
+void setCrashReciever ( void *ptr, void ( *func ) ( const char * ) ) {
+    auto sr = reinterpret_cast<SpeechRecognizerWrapper *> ( ptr );
+    sr->crashMessage = func;
+}
 
-    void setLogMessReciever( void ( *func )( const char * ) ) {
-        speechRecognizer.logMessage = func;
-    }
+void setLogMessReciever ( void *ptr, void ( *func ) ( const char * ) ) {
+    auto sr = reinterpret_cast<SpeechRecognizerWrapper *> ( ptr );
+    sr->logMessage = func;
+}
 
-    void setVadThreshold ( double threshold ) {
-        speechRecognizer.setVadThreshold ( threshold );
-    }
+void setVadThreshold ( void *ptr, double threshold ) {
+    auto sr = reinterpret_cast<SpeechRecognizerWrapper *> ( ptr );
+    sr->setVadThreshold ( threshold );
+}
 
-    }
+void *makeSR ( ) {
+    return new SpeechRecognizerWrapper ( );
+}
+
+void disposeSR ( void *ptr ) {
+    auto sr = reinterpret_cast<SpeechRecognizerWrapper *> ( ptr );
+    sr->stopListening ( );
+    delete sr;
+}
+
+}
