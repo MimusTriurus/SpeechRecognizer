@@ -74,4 +74,8 @@ namespace SpeechRecognizer
         speechRecognizer.logMessage = func;
     }
 
-}
+    void setVadThreshold ( double threshold ) {
+        speechRecognizer.setVadThreshold ( threshold );
+    }
+
+    }

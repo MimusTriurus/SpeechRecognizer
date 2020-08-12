@@ -40,9 +40,14 @@ public:
     void setKeyword( const char *keyword );
     /**
     * @brief устанавливаем порог сабатывания для ключевого слова
-    * @param threshold чем больше значение тем меньше ложных срабатываний
+    * @param threshold чем больше значение тем меньше ложно положительных срабатываний
     */
-    void setThreshold( const double threshold );
+    void setThreshold ( const double threshold );
+    /**
+     * @brief устанавливаем порог сабатывания для voice activity detection
+     * @param threshold чем больше значение тем меньше ложно положительных срабатываний
+     */
+    void setVadThreshold ( const double threshold );
     /**
     * @brief меняем грамматику (слова для распознавания)
     * @param grammarName имя грамматики
@@ -121,6 +126,7 @@ private:
     bool _useKeyword;
 
     double _threshold;
+    double _vadThreshold;
 
     std::string _baseGrammarName;
     std::string _inputDeviceName;

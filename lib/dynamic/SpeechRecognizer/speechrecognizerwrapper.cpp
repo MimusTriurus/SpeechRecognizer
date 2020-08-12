@@ -3,6 +3,7 @@
 #include <fstream>
 #include <iostream>
 #include <string>
+
 using namespace std;
 
 namespace {
@@ -118,6 +119,7 @@ SpeechRecognizerWrapper::SpeechRecognizerWrapper ( )
     , _logIntoFile{ false }
     , _useKeyword{ false }
     , _threshold{ 1e+10f }
+    , _vadThreshold{ 4.0 }
     , _baseGrammarName{ "" }
     , _inputDeviceName{ "sysdefault" }
     , ASSEST_FILE_NAME{ "assets.lst" } {
@@ -139,6 +141,7 @@ bool SpeechRecognizerWrapper::runRecognizerSetup ( const char *destination ) {
         "-hmm", hmmDest.data ( ),
         "-remove_noise", "yes",
         "-inmic", "yes",
+        "-vad_threshold", to_string ( _vadThreshold ),
         "-adcdev", _inputDeviceName.data ( ),
         nullptr );
 
@@ -174,6 +177,10 @@ void SpeechRecognizerWrapper::setKeyword ( const char *keyword ) {
 
 void SpeechRecognizerWrapper::setThreshold ( const double threshold ) {
     _threshold = threshold;
+}
+
+void SpeechRecognizerWrapper::setVadThreshold ( const double threshold ) {
+    _vadThreshold = threshold;
 }
 
 void SpeechRecognizerWrapper::switchGrammar ( const char *grammarName ) {

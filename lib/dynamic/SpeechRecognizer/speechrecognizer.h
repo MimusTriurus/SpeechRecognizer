@@ -42,9 +42,14 @@ namespace SpeechRecognizer {
         FUNCTION_EXPORT void setKeyword( const char *keyword );
         /**
          * @brief устанавливаем порог сабатывания для ключевого слова
-         * @param threshold чем больше значение тем меньше ложных срабатываний
+         * @param threshold чем больше значение тем меньше ложно-положительных срабатываний
          */
         FUNCTION_EXPORT void setThreshold( double threshold );
+        /**
+         * @brief устанавливаем порог сабатывания voice activity detection
+         * @param threshold чем больше значение тем меньше ложно-положительных срабатываний
+         */
+        FUNCTION_EXPORT void setVadThreshold ( double threshold );
         /**
          * @brief меняем грамматику (слова для распознавания)
          * @param grammarName имя грамматики
