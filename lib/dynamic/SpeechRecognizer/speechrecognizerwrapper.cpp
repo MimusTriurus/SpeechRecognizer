@@ -150,7 +150,7 @@ bool SpeechRecognizerWrapper::runRecognizerSetup ( const char *destination ) {
         "-hmm", hmmDest.data ( ),
         "-remove_noise", YES.data ( ),
         "-inmic", YES.data ( ),
-        "-vad_threshold", to_string ( _vadThreshold ),
+        "-vad_threshold", to_string ( _vadThreshold ).data( ),
         "-adcdev", _inputDeviceName.data ( ),
         "-remove_silence", YES.data ( ),
         nullptr );
