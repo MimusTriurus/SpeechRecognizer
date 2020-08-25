@@ -7,9 +7,11 @@ SpeakRecognition::SpeakRecognition( ) {
     connect( &_tmrReadMicBuffer, SIGNAL( timeout( ) ), this, SLOT( onTimeout( ) ) );
     _tmrReadMicBuffer.setInterval( INTERVAL );
 
-    SpeechRecognizer::setLogMessReciever( onRecieveLogMess );
-    SpeechRecognizer::setCrashReciever( onRecieveCrashMess );
-    SpeechRecognizer::setResultReciever( onRecieveResult );
+    this->_ptr = SpeechRecognizer::makeSR ( );
+
+    SpeechRecognizer::setLogMessReciever ( this->_ptr, onRecieveLogMess );
+    SpeechRecognizer::setCrashReciever ( this->_ptr, onRecieveCrashMess );
+    SpeechRecognizer::setResultReciever ( this->_ptr, onRecieveResult );
 
     tryGetInputDeviceFromArg( );
 
