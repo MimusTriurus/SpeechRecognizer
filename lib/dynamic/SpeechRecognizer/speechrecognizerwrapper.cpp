@@ -3,17 +3,17 @@
 #include <fstream>
 #include <iostream>
 #include <string>
+
 using namespace std;
 
 namespace {
 
 constexpr int BUFFER_SIZE{ 2048 };
+const string  YES{ "yes" };
+const string  KWS_THRESHOLD{ "-kws_threshold" };
+const string  KEYPHRASE_SEARCH{ "keyphrase_search" };
 
-}
-
-namespace SpeechRecognizer {
-// параметры по умолчанию для speech recognizer
-static const arg_t cont_args_def[] = {
+const arg_t cont_args_def[] = {
     POCKETSPHINX_OPTIONS,
     { "-argfile",
         ARG_STRING,
@@ -38,8 +38,10 @@ static const arg_t cont_args_def[] = {
     CMDLN_EMPTY_OPTION
 };
 
-static const char *KWS_THRESHOLD = "-kws_threshold";
-static const char *KEYPHRASE_SEARCH = "keyphrase_search";
+}
+
+namespace SpeechRecognizer {
+// параметры по умолчанию для speech recognizer
 
 void SpeechRecognizerWrapper::eventRecognitionResult ( const char *value ) {
     if ( recognitionResult != nullptr )
@@ -66,12 +68,10 @@ void SpeechRecognizerWrapper::recognizeFromMicrophone ( ) {
         eventCrashMessage ( "Failed to start recording" );
         return;
     }
-
     if ( ps_start_utt ( _ps ) < 0 ) {
         eventCrashMessage ( "Failed to start utt" );
         return;
     }
-
     _utt_started = FALSE;
     eventLogMessage ( "Ready..." );
 }
@@ -102,12 +102,18 @@ bool SpeechRecognizerWrapper::checkAcousticModelFiles ( const char *assetsFilePa
 }
 
 void SpeechRecognizerWrapper::freeAllResources ( ) {
-    if ( _ad != nullptr )
+    if ( _ad != nullptr ) {
         ad_close ( _ad );
-    if ( _ps != nullptr )
+        _ad = nullptr;
+    }
+    if ( _ps != nullptr ) {
         ps_free ( _ps );
-    if ( _config != nullptr )
+        _ps = nullptr;
+    }
+    if ( _config != nullptr ) {
         cmd_ln_free_r ( _config );
+        _config = nullptr;
+    }
 }
 
 SpeechRecognizerWrapper::SpeechRecognizerWrapper ( )
@@ -118,12 +124,17 @@ SpeechRecognizerWrapper::SpeechRecognizerWrapper ( )
     , _logIntoFile{ false }
     , _useKeyword{ false }
     , _threshold{ 1e+10f }
+    , _vadThreshold{ 4.0 }
     , _baseGrammarName{ "" }
     , _inputDeviceName{ "sysdefault" }
     , ASSEST_FILE_NAME{ "assets.lst" } {
 }
 
 SpeechRecognizerWrapper::~SpeechRecognizerWrapper ( ) {
+    logMessage = nullptr;
+    recognitionResult = nullptr;
+    crashMessage = nullptr;
+
     freeAllResources ( );
 }
 
@@ -137,9 +148,11 @@ bool SpeechRecognizerWrapper::runRecognizerSetup ( const char *destination ) {
 
     _config = cmd_ln_init ( nullptr, cont_args_def, TRUE,
         "-hmm", hmmDest.data ( ),
-        "-remove_noise", "yes",
-        "-inmic", "yes",
+        "-remove_noise", YES.data ( ),
+        "-inmic", YES.data ( ),
+        "-vad_threshold", to_string ( _vadThreshold ).data( ),
         "-adcdev", _inputDeviceName.data ( ),
+        "-remove_silence", YES.data ( ),
         nullptr );
 
     if ( _logIntoFile ) {
@@ -152,6 +165,8 @@ bool SpeechRecognizerWrapper::runRecognizerSetup ( const char *destination ) {
 
     if ( _config && ( cfg = cmd_ln_str_r ( _config, "-argfile" ) ) != nullptr )
         _config = cmd_ln_parse_file_r ( _config, cont_args_def, cfg, FALSE );
+
+    delete cfg;
 
     _ps = ps_init ( _config );
 
@@ -169,11 +184,15 @@ void SpeechRecognizerWrapper::setBaseGrammar ( const char *grammarName ) {
 
 void SpeechRecognizerWrapper::setKeyword ( const char *keyword ) {
     _useKeyword = true;
-    ps_set_keyphrase ( _ps, KEYPHRASE_SEARCH, keyword );
+    ps_set_keyphrase ( _ps, KEYPHRASE_SEARCH.data ( ), keyword );
 }
 
 void SpeechRecognizerWrapper::setThreshold ( const double threshold ) {
     _threshold = threshold;
+}
+
+void SpeechRecognizerWrapper::setVadThreshold ( const double threshold ) {
+    _vadThreshold = threshold;
 }
 
 void SpeechRecognizerWrapper::switchGrammar ( const char *grammarName ) {
@@ -188,9 +207,9 @@ void SpeechRecognizerWrapper::switchGrammar ( const char *grammarName ) {
 
 void SpeechRecognizerWrapper::setSearchKeyword ( ) {
     if ( _useKeyword )
-        cmd_ln_set_float_r ( _config, KWS_THRESHOLD, _threshold );
+        cmd_ln_set_float_r ( _config, KWS_THRESHOLD.data ( ), _threshold );
     if ( ( _ps != nullptr ) & ( _useKeyword ) )
-        ps_set_search ( _ps, KEYPHRASE_SEARCH );
+        ps_set_search ( _ps, KEYPHRASE_SEARCH.data ( ) );
 }
 
 bool SpeechRecognizerWrapper::addGrammar ( const char *grammarName, const char *grammarFileName ) {
@@ -235,7 +254,7 @@ void SpeechRecognizerWrapper::startListening ( ) {
     eventLogMessage ( "Start listening" );
     if ( _useKeyword ) {
         eventLogMessage ( "Set search keyword" );
-        ps_set_search ( _ps, KEYPHRASE_SEARCH );
+        ps_set_search ( _ps, KEYPHRASE_SEARCH.data ( ) );
     } else {
         ps_set_search ( _ps, _baseGrammarName.data ( ) );
         eventLogMessage ( string ( "Set search:" + _baseGrammarName ).data ( ) );
@@ -270,11 +289,9 @@ void SpeechRecognizerWrapper::readMicrophoneBuffer ( ) {
     }
     if ( !in_speech && _utt_started ) {
         ps_end_utt ( _ps );
-        char const *hyp = ps_get_hyp ( _ps, nullptr );
-        if ( hyp != nullptr ) {
-            eventRecognitionResult ( hyp );
-        }
-
+        string h{ ps_get_hyp ( _ps, nullptr ) };
+        if ( !h.empty ( ) )
+            eventRecognitionResult ( h.data ( ) );
         if ( ps_start_utt ( _ps ) < 0 ) {
             eventCrashMessage ( "Failed to start utt" );
         }
