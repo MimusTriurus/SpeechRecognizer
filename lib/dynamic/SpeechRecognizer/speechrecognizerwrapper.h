@@ -1,11 +1,12 @@
 #ifndef SPEECHRECOGNIZERWRAPPER_H
 #define SPEECHRECOGNIZERWRAPPER_H
 
+#include <thread>
+
+#include <ad.h>
 #include <cctype>
 #include <err.h>
-#include <ad.h>
 #include <pocketsphinx.h>
-
 #include <string>
 
 namespace SpeechRecognizer {
@@ -144,6 +145,15 @@ private:
     bool checkAcousticModelFiles( const char* assetsFilePath );
 
     void freeAllResources( );
+    /////////////////////////
+    void startThread ( );
+
+    void proccesThread ( );
+
+    void stopThread ( );
+
+    bool         _inProgress{ false };
+    std::thread *_thread{ nullptr };
 };
 
 }

@@ -260,6 +260,8 @@ void SpeechRecognizerWrapper::startListening ( ) {
         eventLogMessage ( string ( "Set search:" + _baseGrammarName ).data ( ) );
     }
     recognizeFromMicrophone ( );
+
+    this->startThread ( );
 }
 
 void SpeechRecognizerWrapper::stopListening ( ) {
@@ -267,6 +269,7 @@ void SpeechRecognizerWrapper::stopListening ( ) {
         return;
     eventLogMessage ( "Stop listening" );
     ad_stop_rec ( _ad );
+    this->stopThread ( );
 }
 
 void SpeechRecognizerWrapper::readMicrophoneBuffer ( ) {
@@ -285,13 +288,18 @@ void SpeechRecognizerWrapper::readMicrophoneBuffer ( ) {
     in_speech = ps_get_in_speech ( _ps );
     if ( in_speech && !_utt_started ) {
         _utt_started = TRUE;
-        //eventLogMessage("Listening...");
+        eventLogMessage ( "Listening..." );
     }
     if ( !in_speech && _utt_started ) {
         ps_end_utt ( _ps );
-        string h{ ps_get_hyp ( _ps, nullptr ) };
-        if ( !h.empty ( ) )
-            eventRecognitionResult ( h.data ( ) );
+        auto hyp = ps_get_hyp ( _ps, nullptr );
+        if ( hyp ) {
+            string h{ hyp };
+            if ( !h.empty ( ) )
+                eventRecognitionResult ( h.data ( ) );
+        } else {
+            eventCrashMessage ( "Hyp is null" );
+        }
         if ( ps_start_utt ( _ps ) < 0 ) {
             eventCrashMessage ( "Failed to start utt" );
         }
@@ -305,6 +313,29 @@ void SpeechRecognizerWrapper::saveLogIntoFile ( bool value ) {
 
 void SpeechRecognizerWrapper::setInputDeviceName ( const char *name ) {
     _inputDeviceName = name;
+}
+
+void SpeechRecognizerWrapper::startThread ( ) {
+    this->_inProgress = true;
+    if ( !_thread )
+        _thread = new thread ( &SpeechRecognizerWrapper::proccesThread, this );
+}
+
+void SpeechRecognizerWrapper::proccesThread ( ) {
+    while ( this->_inProgress ) {
+        this->readMicrophoneBuffer ( );
+        this_thread::sleep_for ( chrono::milliseconds ( 150 ) );
+    }
+    cout << "end proccess" << endl;
+}
+
+void SpeechRecognizerWrapper::stopThread ( ) {
+    this->_inProgress = false;
+    if ( _thread ) {
+        _thread->join ( );
+        delete _thread;
+        _thread = nullptr;
+    }
 }
 
 }

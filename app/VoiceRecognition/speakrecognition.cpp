@@ -17,7 +17,7 @@ SpeakRecognition::SpeakRecognition( ) {
 
     SpeechRecognizer::saveLogIntoFile ( this->_ptr, true );
 
-    SpeechRecognizer::setVadThreshold ( this->_ptr, 1.0 );
+    SpeechRecognizer::setVadThreshold ( this->_ptr, 3.0 );
 }
 
 void SpeakRecognition::tryGetInputDeviceFromArg( ) {
@@ -60,13 +60,13 @@ void SpeakRecognition::addGrammarString( const QString grammarId, const QString 
 void SpeakRecognition::startRecognition( ) {
     if ( _init ) {
         SpeechRecognizer::startListeningMic ( this->_ptr );
-        _tmrReadMicBuffer.start( );
+        //_tmrReadMicBuffer.start( );
     }
 }
 
 void SpeakRecognition::stopRecognition( ) {
     if ( _init ) {
-        _tmrReadMicBuffer.stop( );
+        //_tmrReadMicBuffer.stop( );
         SpeechRecognizer::stopListeningMic ( this->_ptr );
     }
 }

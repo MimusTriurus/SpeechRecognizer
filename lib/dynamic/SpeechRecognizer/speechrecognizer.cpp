@@ -41,7 +41,7 @@ bool addGrammarFile ( void *ptr, const char *grammarName, const char *grammarFil
 
 void readMicBuffer ( void *ptr ) {
     auto sr = reinterpret_cast<SpeechRecognizerWrapper *> ( ptr );
-    sr->readMicrophoneBuffer ( );
+    //sr->readMicrophoneBuffer ( );
 }
 
 void setKeyword ( void *ptr, const char *keyword ) {
