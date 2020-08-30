@@ -289,9 +289,12 @@ void SpeechRecognizerWrapper::readMicrophoneBuffer ( ) {
     }
     if ( !in_speech && _utt_started ) {
         ps_end_utt ( _ps );
-        string h{ ps_get_hyp ( _ps, nullptr ) };
-        if ( !h.empty ( ) )
-            eventRecognitionResult ( h.data ( ) );
+        auto hyp = ps_get_hyp ( _ps, nullptr );
+        if ( hyp ) {
+            string h{ hyp };
+            if ( !h.empty ( ) )
+                eventRecognitionResult ( h.data ( ) );
+        }
         if ( ps_start_utt ( _ps ) < 0 ) {
             eventCrashMessage ( "Failed to start utt" );
         }
