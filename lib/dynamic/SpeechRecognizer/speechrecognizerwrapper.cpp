@@ -290,7 +290,7 @@ void SpeechRecognizerWrapper::readMicrophoneBuffer ( ) {
     if ( !in_speech && _utt_started ) {
         ps_end_utt ( _ps );
         auto hyp = ps_get_hyp ( _ps, nullptr );
-        if ( hyp ) {
+        if ( hyp != NULL ) {
             string h{ hyp };
             if ( !h.empty ( ) )
                 eventRecognitionResult ( h.data ( ) );
