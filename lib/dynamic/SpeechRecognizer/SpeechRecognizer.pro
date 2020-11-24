@@ -38,6 +38,9 @@ DEPENDPATH += $$PWD/include/sphinxbase
 INCLUDEPATH += $$PWD/include/win32
 DEPENDPATH += $$PWD/include/win32
 
+QMAKE_CFLAGS_RELEASE = -O2 -MT
+QMAKE_CXXFLAGS_RELEASE = -O2 -MT
+
 equals(QT_ARCH, i386) {
     #message("32-bit")
     win32: LIBS += -L$$PWD/lib/win/x32/ -lsphinxbase
