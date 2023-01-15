@@ -1,1 +1,50 @@
 *.pro.user
+.idea
+.vs
+*build
+
+*.slo
+*.lo
+*.o
+*.a
+*.la
+*.lai
+*.so
+*.dll
+*.dylib
+*.lib
+*.json
+
+# Qt-es
+
+/.qmake.cache
+/.qmake.stash
+*.pro.user.*
+*.qbs.user
+*.qbs.user.*
+*.moc
+moc_*.cpp
+moc_*.h
+qrc_*.cpp
+ui_*.h
+Makefile*
+*build-*
+*out
+
+# QtCreator
+
+*.autosave
+
+# QtCtreator Qml
+*.qmlproject.user
+*.qmlproject.user.*
+
+#*.onnx
+#*.png
+#*.jpeg
+#*.jpg
+#*.prototxt
+#*.caffemodel
+
+# QtCtreator CMake
+CMakeLists.txt.user*

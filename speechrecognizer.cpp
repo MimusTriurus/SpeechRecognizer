@@ -9,9 +9,9 @@ void setBaseGrammar ( void *ptr, const char *grammarName ) {
     sr->setBaseGrammar ( grammarName );
 }
 
-void changeGrammar ( void *ptr, const char *grammarName ) {
+bool changeGrammar ( void *ptr, const char *grammarName ) {
     auto sr = reinterpret_cast<SpeechRecognizerWrapper *> ( ptr );
-    sr->switchGrammar ( grammarName );
+    return sr->switchGrammar ( grammarName );
 }
 
 bool runRecognizerSetup ( void *ptr, const char *destination ) {
@@ -19,14 +19,14 @@ bool runRecognizerSetup ( void *ptr, const char *destination ) {
     return sr->runRecognizerSetup ( destination );
 }
 
-void startListeningMic ( void *ptr ) {
+bool startListeningMic ( void *ptr ) {
     auto sr = reinterpret_cast<SpeechRecognizerWrapper *> ( ptr );
-    sr->startListening ( );
+    return sr->startListening ( );
 }
 
-void stopListeningMic ( void *ptr ) {
+bool stopListeningMic ( void *ptr ) {
     auto sr = reinterpret_cast<SpeechRecognizerWrapper *> ( ptr );
-    sr->stopListening ( );
+    return sr->stopListening ( );
 }
 
 void saveLogIntoFile ( void *ptr, bool value ) {
@@ -39,9 +39,9 @@ bool addGrammarFile ( void *ptr, const char *grammarName, const char *grammarFil
     return sr->addGrammar ( grammarName, grammarFile );
 }
 
-void readMicBuffer ( void *ptr ) {
+bool readMicBuffer ( void *ptr, unsigned char *data, int length ) {
     auto sr = reinterpret_cast<SpeechRecognizerWrapper *> ( ptr );
-    sr->readMicrophoneBuffer ( );
+    return sr->readMicrophoneBuffer ( data, length );
 }
 
 void setKeyword ( void *ptr, const char *keyword ) {
@@ -54,9 +54,9 @@ void setThreshold ( void *ptr, double threshold ) {
     sr->setThreshold ( threshold );
 }
 
-void setSearchKeyword ( void *ptr ) {
+bool setSearchKeyword ( void *ptr ) {
     auto sr = reinterpret_cast<SpeechRecognizerWrapper *> ( ptr );
-    sr->setSearchKeyword ( );
+    return sr->setSearchKeyword ( );
 }
 
 bool addGrammarString ( void *ptr, const char *grammarName, const char *grammarString ) {

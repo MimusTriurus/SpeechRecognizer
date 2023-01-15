@@ -52,11 +52,11 @@ public:
     * @brief меняем грамматику (слова для распознавания)
     * @param grammarName имя грамматики
     */
-    void switchGrammar( const char *grammarName );
+    bool switchGrammar( const char *grammarName );
     /**
     * @brief инициируем поиск ключевого слова (OK GOOGLE!)
     */
-    void setSearchKeyword( );
+    bool setSearchKeyword( );
     /**
     * @brief добавляем файл грамматики
     * @param grammarName идентификатор грамматики
@@ -83,15 +83,15 @@ public:
     /**
     * @brief слушаем микрофон
     */
-    void startListening( );
+    bool startListening( );
     /**
     * @brief окончание прослушки микрофона
     */
-    void stopListening( );
+    bool stopListening( );
     /**
     * @brief читаем буффер микрофона (с перерывом в 100 мс)
     */
-    void readMicrophoneBuffer( );
+    bool readMicrophoneBuffer( unsigned char *data, int length );
     /**
     * @brief сохраняем лог с подробной информацией
     * о работе библиотеки распознвания
@@ -119,7 +119,6 @@ public:
 private:
     ps_decoder_t *_ps;
     cmd_ln_t *_config;
-    ad_rec_t *_ad;
     uint8 _utt_started;
 
     bool _logIntoFile;
@@ -139,7 +138,7 @@ private:
 
     void eventLogMessage( const char* value );
 
-    void recognizeFromMicrophone( );
+    bool recognizeFromMicrophone( );
 
     bool checkAcousticModelFiles( const char* assetsFilePath );
 

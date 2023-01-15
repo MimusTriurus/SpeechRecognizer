@@ -64,11 +64,11 @@ FUNCTION_EXPORT void setVadThreshold ( void *ptr, double threshold );
  * @brief меняем грамматику (слова для распознавания)
  * @param grammarName имя грамматики
  */
-FUNCTION_EXPORT void changeGrammar ( void *ptr, const char *grammarName );
+FUNCTION_EXPORT bool changeGrammar ( void *ptr, const char *grammarName );
 /**
  * @brief инициируем поиск ключевого слова (OK GOOGLE!)
  */
-FUNCTION_EXPORT void setSearchKeyword ( void *ptr );
+FUNCTION_EXPORT bool setSearchKeyword ( void *ptr );
 /**
  * @brief добавляем файл грамматики
  * @param grammarName идентификатор грамматики
@@ -95,16 +95,16 @@ FUNCTION_EXPORT bool addWordIntoDictionary ( void *ptr, const char *word, const 
 /**
  * @brief слушаем микрофон
  */
-FUNCTION_EXPORT void startListeningMic ( void *ptr );
+FUNCTION_EXPORT bool startListeningMic ( void *ptr );
 /**
  * @brief окончание прослушки микрофона
  */
-FUNCTION_EXPORT void stopListeningMic ( void *ptr );
+FUNCTION_EXPORT bool stopListeningMic ( void *ptr );
 /**
  * @brief читаем буффер микрофона (с перерывом в 100 мс)
  * ... из потока Unity 5
  */
-FUNCTION_EXPORT void readMicBuffer ( void *ptr );
+FUNCTION_EXPORT bool readMicBuffer ( void *ptr, unsigned char *data, int lenght);
 /**
  * @brief передаем указатель на функцию-приемник результатов распознавания
  */
